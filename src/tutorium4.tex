@@ -1,0 +1,273 @@
+\include{common_start}
+\include{tutBlatt_methods}
+\tutnr{4}
+
+\section{Altlasten}
+\subsection{Pumping Lemma}
+\begin{frame}
+	\frametitle{Pumping Lemma Formalia}
+	Behauptung: L ist nicht regulär. ~\\
+	Beweis:
+	\begin{enumerate}
+		\item[]Sei $p \in \mathbb{N}$ wie im Pumping-Lemma
+		\item[]Wähle $w$ = \underline{\hspace{1.5 cm}}, $w \in L$, $|w| > n$
+		\item[]Beh: $\forall u,v,x: w = uvx, |uv| \leq p, v \neq \varepsilon$ gilt: $\exists i \in \mathbb{N}_0: uv^ix \notin L$
+		\item[] Bew: $(\forall v$ gilt:)\underline{\hspace{4.5 cm}}
+		\item[] \hspace*{0.85 cm} \underline{\hspace{5.75 cm}}
+		\item[] Widerspruch zum Pumping Lemma $\Rightarrow$ L ist nicht regulär.
+	\end{enumerate}
+\end{frame}
+
+\subsection{Chomsky-Normalform}
+\begin{frame}
+	\frametitle{Chomsky-Normalform}
+	\begin{enumerate}
+		\item Schritt: neues Startsymbol
+		\\ \emph{$S' \rightarrow S | \varepsilon$}
+		\\ 
+		\item Schritt: Entfernen der $\varepsilon$-Produktionen
+		\\ 
+		\item Schritt: Entfernen von Kettenregeln
+		\\ \emph{z.B. $A \rightarrow B, B \rightarrow c \implies A \rightarrow c$}
+		\\ x
+		\item Schritt: Überführen in Chomsky-Normalform
+		\begin{enumerate}
+			\item Terminale ersetzen
+			\item Regeln auf 2 Variablen 'kürzen'
+		\end{enumerate}
+	\end{enumerate}
+\end{frame}
+
+
+%\begin{frame}
+%	\frametitle{Aufgabe 2 Fortsetzung}
+%	Gegeben sei die folgende Grammatik: $\mathcal{G} = (\mathcal{T},\mathcal{V},S,
+%	\mathcal{P})$ mit\\
+%	$\mathcal{T} := \{a,b,c,d\}$, $\mathcal{V} := \{S,A,D,M\}$, $\mathcal{P} := \{
+%	S \rightarrow AMD \; | \; M, A \rightarrow AA \; | \; a, D \rightarrow DD \; | \; d,
+%	M \rightarrow bMc \; | \; \varepsilon\}$
+%	\begin{enumerate}
+%		\item Geben Sie die erzeugte Sprache an!
+%		\item Wandeln Sie die gegebene kontextfreie Grammatik $\mathcal{G}$ in eine
+%		"aquivalente kontextfreie Grammatik $\mathcal{G}'$ in\\
+%		Chomsky-Normalform um, indem sie jeden Schritt durch eine neue Grammatik beschreiben!
+%		\item Zeigen oder widerlegen Sie mit Hilfe des CYK-Algorithmus, ob die folgenden
+%		W"orter in der Sprache $\mathcal{L}$\\
+%		liegen, die durch die Grammatik $\mathcal{G}$ erzeugt wird!
+%		\begin{enumerate}
+%			\item $aabbccdd$
+%			\item $abbcc$
+%			\item $abcdd$
+%		\end{enumerate}
+%	\end{enumerate}
+%\end{frame}
+
+\section{CYK-Algorithmus}
+\subsection{CYK-Algorithmus}
+\frame{
+\frametitle{CYK Beispiel}
+Gegeben sei die Grammatik \textit{G} $= \mathcal{(T,V,}S\mathcal{,P) }$  mit den folgenden Produktionen aus $\mathcal{P}$:
+\begin{align*}
+S & \rightarrow AX \mid AB \\
+X &\rightarrow SB \mid AB \\
+A &\rightarrow a\\
+B &\rightarrow b\\
+\end{align*}
+\begin{enumerate}
+	\item Lässt sich der CYK-Algorithmus auf $G$ anwenden?
+	\item Ist das Wort $aaabbb$ in der Sprache $\mathcal{L}(\textit{G})$?
+\end{enumerate}
+}
+
+\subsection{Aufgabe 1}
+\begin{frame}
+	\frametitle{Aufgabe 1} % alte aufgabe 2 b
+	Gegeben sei die folgende Grammatik: $\mathcal{G} = (\mathcal{T},\mathcal{V},S,
+	\mathcal{P})$ mit\\
+	$\mathcal{T} := \{a,b,c,d\}$, $\mathcal{V} := \{S,A,D,M,X,Y,B,C\}$, $\mathcal{P} := \{
+	S \rightarrow AX \; | \; AD \; | \; BY \; | \; BY \; | \; \varepsilon, A \rightarrow AA \; | \; a, D \rightarrow DD \; | \; d, M \rightarrow BY \; | \; BC, X \rightarrow MD, Y \rightarrow MC, B \rightarrow b, C \rightarrow c \}$
+	\begin{enumerate}
+		\item Zeigen oder widerlegen Sie mit Hilfe des CYK-Algorithmus, ob die folgenden
+		W"orter in der Sprache $\mathcal{L}$\\
+		liegen, die durch die Grammatik $\mathcal{G}$ erzeugt wird!
+		\begin{enumerate}
+			\item $aabbccdd$
+			\item $abbcc$
+			\item $abcdd$
+		\end{enumerate}
+	\end{enumerate}
+\end{frame}
+
+\section{Kellerautomaten}
+\subsection{Kellerautomaten}
+\begin{frame}
+	\frametitle{Definition Kellerautomaten}
+	Ein (nichtdeterministischer) \textbf{Kellerautomat} (NPDA bzw PDA, Pushdown Automaton) besteht aus $(Q, \Sigma, \Gamma, q_0, Z_0,\delta, F)$, wobei
+	\begin{itemize}
+		\item $Q$ endliche Zustandsmenge
+		\item $\Sigma$ endliches Eingabealphabet
+		\item $\Gamma$ endliches Stack-Alphabet
+		\item $q_0 \in Q$ Anfangszustand
+		\item $Z_0 \in \Gamma$ Initialisierung des Stacks
+		\item $\delta : Q \times ( \Sigma \cup \{\varepsilon\}) \times \Gamma \rightarrow 2^{Q \times \Gamma^*}$
+		\begin{itemize}
+			\item $\delta(q, a, Z) \subseteq \{(q,\gamma) : q \in Q, \gamma \in \Gamma^*\}$
+			\item $\delta(q, \varepsilon, Z) \subseteq \{(q,\gamma) : q \in Q, \gamma \in \Gamma^*\}$
+		\end{itemize}
+		\item $F \subseteq Q$ Menge der akzeptierenden Endzustände, $F=\emptyset$ ist möglich.
+		
+		\vspace{-4cm}\raggedleft{\includegraphics[width=0.5\textwidth]{images/PDA.png}}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Zu Kellerautomaten}
+\begin{itemize}
+\item Akzeptieren nach Eingabeende, wenn \begin{itemize}
+	\item der Stack leer ist \emph{oder}
+	\item der Automat in einen akzeptierenden Zustand kommt.
+\end{itemize}
+\item Sind im Allgemeinen nichtdeterministisch
+\item Man kann Endzustände auch aus der Definition weglassen und alternativ verlangen, dass der Automat genau bei leerem Keller akzeptiert.
+\item Man kann sogar alle Zustände bis auf einen weglassen und alles in die Kellerbelegung kodieren
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Beispiel}
+	$M = (Q, \Sigma, \Gamma, q_0, Z_0, \delta, F)$
+	\begin{itemize}
+		\item $Q = \{q_0, q_1, q_2\}$
+		\item $\Sigma = \{a,b\}$
+		\item $\Gamma = \{\#,X\}$
+		\item $Z_0 = \#$
+		\item $F = \{q_2\}$
+	\end{itemize}
+	\begin{figure}
+		\begin{tikzpicture}[node distance=2.5cm,shorten >=1pt,auto]
+			\node[state,initial]   (q_0)                {$q_0$};
+			\node[state]           (q_1) [right of=q_0] {$q_1$};
+			\node[state,accepting] (q_2) [right of=q_1] {$q_2$};
+			\path[->]	(q_0) 	edge 			node {$(b,X,\varepsilon)$}				(q_1)
+			edge [loop above]	node {${(a,X,XX)} \atop {(a,\#,X\#)}$}	 	()
+			(q_1)	edge			node {$(\varepsilon,\#,\varepsilon)$}			(q_2)
+			edge [loop above]	node {$(b,X,\varepsilon)$}				();
+		\end{tikzpicture}
+	\end{figure}
+	\begin{itemize}
+		\item Welche Sprache akzeptiert dieser Automat?
+	\end{itemize}
+\end{frame}
+
+\subsection{Aufgabe 2}
+\begin{frame}
+	\frametitle{Aufgabe 2} % alte aufgabe 3
+	Gegeben sei folgende Sprache f"ur das Alphabet $\Sigma = \{a,b,c\}$:
+	\begin{multline*}
+		\mathcal{L} = \{w_1w_2 \in \Sigma^* \; | \; w_1 \in \{a,b\}^*,w_2 \in \{b,c\}^*,\\
+		\#_a w_1 + \#_b w_1 = \#_b w_2 + \#_c w_2\}
+	\end{multline*}
+	Hier gibt $\#_x w$ die H"aufigkeit des Vorkommens eines Zeichens $x \in \Sigma$ in
+	einem Wort $w \in \Sigma^*$ an.
+	\begin{enumerate}
+		\item Zeigen Sie, dass $\mathcal{L}$ nicht regul"ar ist!
+		\item Geben Sie eine Chomsky-2-Grammatik an, die genau die Sprache $\mathcal{L}$
+		erzeugt!
+		\item Geben Sie einen Kellerautomaten $\mathcal{M}$ an, der genau die Sprache
+		$\mathcal{L}$ erkennt! Zeichnen Sie den\\
+		Zustands"ubergangsgraphen f"ur $\mathcal{M}$!
+	\end{enumerate}
+\end{frame}
+
+\section{Pumping Lemma für kontextfreie Sprachen}
+\subsection{Pumping Lemma für kontextfreie Sprachen}
+\begin{frame}
+	\frametitle{Pumping-Lemma für kontextfreie Sprachen}
+	\begin{exampleblock}{Lemma}
+		Für jede kontextfreie Sprache $L$ gibt es eine Konstante $n \in \mathbb{N}$,
+		so dass sich jedes Wort $z \in L$ mit $|z| \geq n$ so als
+		$$ z = uvwxy $$
+		schreiben lässt, dass
+		\begin{itemize}
+			\item $|vx| \geq 1$,
+			\item $|vwx| \leq n$ und
+			\item für alle $i \geq 0$ das Wort $uv^iwx^iy \in L$ ist.
+		\end{itemize}
+	\end{exampleblock}
+\end{frame}
+
+%\begin{frame}
+%	\frametitle{Beweisidee}
+%	\begin{itemize}
+%		\item Jeder Knoten im Ableitungsbaum (wie wir ihn in CYK sehen) steht für ein Nichtterminalsymbol
+%		\item Ab einer gewissen Höhe des Baumes (bzw. Länge des Wortes) muss ein Nichtterminal im Baum mehrmals in einer Reihe vorkommen
+%		\item Man kann also aus einem Nichtterminalsymbol dasselbe Symbol wieder ableiten
+%		\item Da das Wort durch jede Ableitung (außer zu Terminalsymbolen) länger wird, gibt es eine "`Schleife"' beim Ableiten
+%		\item Diese Schleife kann man also "`pumpen"', also beliebig oft (oder auch gar nicht) durchlaufen
+%	\end{itemize}
+%\end{frame}
+%
+%\begin{frame}
+%	\frametitle{Beweisidee}
+%	\begin{figure}[H]
+%		\centering
+%		\includegraphics[scale=0.41]{images/pumping}
+%	\end{figure}
+%\end{frame}
+
+\frame{
+	\frametitle{Pumping Lemma Formalia (kontextfrei)}
+	Behauptung: L ist nicht kontextfrei. ~\\
+	Beweis:
+	\begin{enumerate}
+	\item[] Nehme an L sei kontextfrei.% Sei n wie im Pumping Lemma gefordert.
+	\item[] Sei n beliebig aber fest.
+	%\item Pumping Lemma: $\exists n \in N$, so dass jedes Wort $z \in L$ mit $|z| \ge n$ eine Zerlegung z = uvwxy besitzt mit $|vx|\ge 1$ und $|vwx|\le n$, so dass $uv^iwx^iy \in L$  für $\forall i\in \N_0$
+	\item[] Wähle z=\underline{\hspace{3cm}} $\in L$ mit $|z| \ge n$
+	%\item Zeige, dass für alle Zerlegungen von z, die den Regeln des Pumping Lemmas genügen, ein i existiert, sodass $uv^iwx^iy\not\in L$
+	\item[] Beh.: $\forall u,v,w,x,y: uvwxy=z$ mit $|vx|\ge 1$ und $|vwx|\le n$, $\exists i \in N$, so dass $uv^iwx^iy \not\in L$.
+	\item[] Bew.:\underline{\hspace{8cm}}
+	\item[] Widerspruch zum Pumping Lemma $\Rightarrow$ L ist nicht kontextfrei.
+	\end{enumerate}
+}
+
+\begin{frame}
+	\frametitle{Beispiel}
+	Zeige, dass die Sprache
+	\[L=\{\omega \omega|\omega \in \{0,1\}^*\}\]
+	nicht kontextfrei ist.
+\end{frame}
+
+\subsection{Aufgabe 3}
+\begin{frame}
+	\frametitle{Aufgabe 3} % Aufgabe 1.1
+	\begin{enumerate}
+		\item Geben Sie f"ur die Sprache $\mathcal{L} = \{a^nb^nc^n \; | \; n \in
+		\mathbb{N}\}$ eine Grammatik des h"ochstm"oglichen Chomsky-Typs an!
+		\item Zeigen Sie, dass die Sprache $\mathcal{L}' = \{a^{2^n} \; | \; n \in
+		\mathbb{N}\}$ nicht kontextfrei ist!
+	\end{enumerate}
+\end{frame}
+
+\subsection{Abschlusseigenschaften}
+\begin{frame}
+	\frametitle{Abschlusseigenschaften}
+	Seien $L_1$, $L_2$ kontextfrei so sind auch diese $L$ kontextfrei:
+	\begin{itemize}
+		\item $L = L_1 \cup L_2$
+		\item $L = L_1 \cdot L_2$
+		\item $L = L_1^*$
+	\end{itemize}
+\end{frame}
+
+\section{Schluss}
+\subsection{Schluss}
+
+\begin{frame}
+\frametitle{Bis zum nächsten Mal!}
+\begin{center}
+  \includegraphics[width=1 \textheight]{images/password_strength.png}
+\end{center}
+\end{frame}
+
+\include{common_end}
