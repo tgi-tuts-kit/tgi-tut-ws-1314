@@ -1,0 +1,195 @@
+\include{common_start}
+\include{tutBlatt_methods}
+\tutnr{5}
+
+\section{Turingmaschine}
+\subsection{Allgemeine Turingmaschine}
+\subsection{Turingmaschine}
+\begin{frame}
+	\frametitle{Turingmaschine}
+	Die Turingmaschine besteht aus einem beidseitig \emph{unendlichen} Eingabe- und Rechenband
+	mit einem frei beweglichen Lese-/Schreibkopf, der von einer \emph{endlichen} Kontrolle gesteuert wird. 
+	\begin{center}
+		\vspace{1cm}
+		\hspace{-12mm}
+		\includegraphics[scale=0.5]{images/tmaschine.png}
+	\end{center}
+\end{frame}
+\begin{frame}
+\frametitle{Turingmaschine}
+\begin{block}{Definiton}
+Eine Turingmaschine wird definiert als ein 7-Tupel bestehend aus:
+ \begin{itemize}
+ \item $Q$, einer endlichen Zustandsmenge
+ \item $\Sigma$, einem endlichen Eingabealphabet
+ \item $\Gamma$, einem endlichen Bandalphabet mit $\Sigma \cup\{\sqcup\} \subseteq \Gamma$, wobei $\sqcup \notin \Sigma$
+ \item $\delta$, einer Übergangsfunktion $\delta: Q\times\Gamma \rightarrow Q\times\Gamma\times\{L, R\}$
+ \item $s \in Q$, einem Startzustand
+ %\item $F \subseteq Q$, einer Menge an Endzuständen
+ \item $q_{accept}$, einem akzeptierenden Zustand
+ \item $q_{reject}$, einem ablehnenden Zustand
+ \end{itemize}
+\end{block}
+\begin{block}{Bemerkung}
+ In den Zuständen $q_{accept}$ und $q_{reject}$ hält die Turingmaschine unabhängig davon, was vom Band eingelesen wird. Zudem führen alle impliziten Übergänge in den Zustand $q_{reject}$.
+\end{block}
+\end{frame}
+
+\frame{
+	\frametitle{Graph einer Turingmaschine}
+	\begin{center}
+	\begin{tikzpicture}[node distance=2.25cm,auto]
+	\node(q0)[draw,circle,thick]{$q_0$};
+	\node (s) [node distance=1cm,left of =q0]{};
+	\node(q1)[draw,circle,thick,right of=q0]{$q_1$};
+	\node(qx)[right of=q1]{\dots};
+
+	\path[->]       (s) edge (q0)
+	                (q0) edge[bend left] node{$a:b,L$} (q1)
+			                (q1) edge[bend left] node{\dots} (qx);
+					\end{tikzpicture}
+					\end{center}
+
+					Dabei steht die Kantenbeschriftung "`$a:b,L$"' für den Übergang $\delta(q_0,a) =
+					(q_1,b,L)$.
+
+					\vspace{2mm}
+					Falls es für einen gegebenen Zustand und ein gegebenes
+					Symbol keinen Zustandsübergang gibt, bricht die Maschine die Berechnung ab. 
+}
+
+\begin{frame}
+\frametitle{Konfigurationen}
+Sei $\mathcal{M} =(Q,\Sigma, \Gamma,\delta,s,q_{accept},q_{reject})$ eine Turingmaschine.
+
+Angabe des aktuellen Berechnungszustandes: \emph{Konfiguration}
+
+$$w(q)av$$ 
+
+wobei $w,v \in \Gamma^*, a \in \Gamma$ und $q\in Q$. \\
+
+Dies bedeutet:
+
+\begin{itemize}
+	\item $\mathcal{M}$ befindet sich im Zustand $q$.
+	\item Der Lesekopf steht auf dem Zeichen $a$.
+	\item Links vom Lesekopf steht das Wort $w$ und rechts davon das Wort $v$ auf dem Rechenband.
+\end{itemize}
+\end{frame}
+
+\subsection{Aufgaben deterministische Turingmaschine}
+\begin{frame}
+\frametitle{Aufgabe B4 2.2}
+Gegeben sei folgende deterministische Turingmaschine $\mathcal{TM} =
+(\mathcal{Q},\Sigma,\Gamma,\delta,q_0,\#,\mathcal{F})$, wobei $\Sigma = \{a,b\}$,
+$\Gamma = \Sigma \cup \{B,\#\}$, den Zust"anden $\mathcal{Q} = \{q_0,\dots,q_7\}$,
+dem Startzustand $q_0$, den Finalzust"anden $\mathcal{F} = \{q_7\}$ und dem
+Bandzeichen $\#$. Der Zustands"ubergangsgraph ist gegeben durch:
+\begin{center}
+\resizebox{10cm}{!} {
+\begin{tikzpicture}[line width=1pt]
+\start{0}{0}{q_0}
+\tob{0}{0}{-2}{(a,\#,R)}
+\tor{0}{0}{3.5}{(B,\#,R)}
+\draw (2,-2) node[above right]{$(\#,\#,N)$};
+\draw [->] (0.283,-0.283) -- (3.717,-3.717);
+\state{0}{-2}{q_1}
+\rloopb{0}{-2}{(a,a,R),(B,B,R)}
+\tol{0}{-2}{-2}{(b,B,L)}
+\state{-2}{-2}{q_2}
+\rloopb{-2}{-2}{(a,a,L),(B,B,L)}
+\totr{-2}{-2}{0}{0}{(\#,\#,R)}
+\state{3.5}{0}{q_3}
+\rloopt{3.5}{0}{(a,a,R),(B,B,R)}
+\tor{3.5}{0}{5}{(\#,\#,L)}
+\state{5}{0}{q_4}
+\tob{5}{0}{-2}{(a,\#,L)}
+\state{5}{-2}{q_5}
+\rloopb{5}{-2}{(a,a,L),(B,B,L)}
+\tol{5}{-2}{3.5}{(\#,\#,R)}
+\state{3.5}{-2}{q_6}
+\tot{3.5}{-2}{0}{(B,\#,R)}
+\tol{3.5}{-2}{2}{(\#,\#,N)}
+\final{2}{-2}{q_7}
+\end{tikzpicture}
+}
+\end{center}
+Finden Sie die Sprache, die von der Turingmaschine $\mathcal{TM}$ akzeptiert wird!
+\end{frame}
+\begin{frame}
+	\frametitle{Aufgabe B5 3}
+	Geben Sie f"ur die nachfolgenden Sprachen "uber dem Alphabet $\Sigma = \{0,1\}$
+	jeweils eine Turingmaschine an, die die entsprechende Sprache akzeptiert!
+	\begin{enumerate}
+		\item $\mathcal{L} = \{ \omega \in \{0,1\}^* \; | \; \omega \;
+		\mbox{enth"alt das Zeichen $0$ gleich oft wie das Zeichen $1$} \}$
+		\item $\mathcal{L}' = \{ \omega \in \{0,1\}^* \; | \; \omega \;
+		\mbox{enth"alt das Zeichen $0$ doppelt so oft wie das Zeichen $1$} \}$
+		\item $\mathcal{L}'' = \{ \omega \in \{0,1\}^* \; | \; \omega \;
+		\mbox{enth"alt das Zeichen $0$ nicht doppelt so oft wie das Zeichen $1$} \}$
+	\end{enumerate}
+\end{frame}
+
+\subsection{Nichtdeterministische Turingmaschine}
+\begin{frame}
+	\frametitle{Nichtdeterministische Turingmaschine}
+	Was ist das?
+	\begin{itemize}
+		\item Wie eine normale Turingmaschine...
+		\item ... nur nicht-deterministisch.
+	\end{itemize}
+	Soll heißen:
+	\begin{itemize}
+		\item Mehrere Übergänge für das selbe gelesene Zeichen in einem Zustand
+		\item akzeptiert wird, wenn es eine Berechnungsfolge gibt die in $q_{accept}$ endet
+	\end{itemize}
+	~\\~\\~\\
+	Kurz gesagt:~\\
+	Analog zu Automaten, nur ohne $\lambda$-Übergänge.
+\end{frame}
+
+\subsection{Aufgaben nichtdeterministische Turingmaschine}
+\begin{frame}
+\frametitle{Aufgabe B4 2.1}
+Geben Sie eine nichtdeterministische Turingmaschine $\mathcal{TM} =
+(\mathcal{Q},\Sigma,\Gamma,\delta,q_0,\square,\mathcal{F})$ an, welche die Sprache
+$\mathcal{L} = \{ww \; | \; w \in \{a,b\}^*\}$ erkennt! Es gen"ugt dabei, den
+Zustands"ubergangsgraphen zu zeichnen und das verwendete Bandalphabet anzugeben.
+\end{frame}
+
+\subsection{Linear beschränkte Turingmaschine}
+\begin{frame}
+	\frametitle{Linear beschränkte Turingmaschine}
+	Eine linear beschränkte Turingmaschine (auch \emph{LBA} = Linear Bounded Automaton) darf den Bereich des Bandes auf dem die Eingabe steht nicht verlassen.\\
+	\vspace{2mm}
+	Variation:
+	\begin{itemize}
+		\item Die linear beschränkte Turingmaschine darf noch genau ein weiteres Zeichen rechts von dem Eingabewort zu verwenden. 
+	\end{itemize}
+	\vspace{2mm}
+	Die von der nichtdeterministischen linear beschränkten Turingmaschine akzeptierten Sprachen sind genau die kontextsensitiven Sprachen. (CH-1)
+\end{frame}
+
+\subsection{Aufgabe linear beschränkte Turingmaschine}
+\begin{frame}
+\frametitle{Aufgabe B4 1}
+\begin{enumerate}
+\item Geben Sie f"ur die Sprache $\mathcal{L}' = \{a^{2^n} \; | \; n \in
+\mathbb{N}\}$ eine linear beschr"ankte Turing-Maschine an und zeichnen\\
+Sie diese Turing-Maschine auch als Graphen!
+\item Pr"ufen Sie, ob Ihre Turing-Maschine $aaaa$ als Eingabe akzeptiert!
+Pr"ufen Sie auch nach, ob $aaa$ \underline{nicht}\\
+akzeptiert wird!
+\end{enumerate}
+\end{frame}
+
+\section{Schluss}
+\subsection{Schluss}
+\begin{frame}
+\frametitle{Bis zum nächsten Mal!}
+\begin{center}
+  \includegraphics[width=1 \textheight]{images/xkcd_205.png}
+\end{center}
+\end{frame}
+
+\include{common_end}

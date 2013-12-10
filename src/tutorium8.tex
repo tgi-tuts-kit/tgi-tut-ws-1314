@@ -1,0 +1,224 @@
+\include{common_start}
+\include{tutBlatt_methods}
+\include{amsmath}
+
+\tutnr{8}
+
+\section{Altlasten}
+\subsection{Reduktion}
+
+\begin{frame}
+\frametitle{Reduktion}
+Aufgabe: Ist ein gegebenes $Problem$ A $attribut$?~\\~\\
+\begin{itemize}
+\item Nehme an, A ist $attribut$
+\item Suche ein geeignetes $Problem$ B, das bekanntermaßen (laut Vorlesung) $nicht$ $attribut$ ist
+\item Zeige: Wenn A $attribut$ ist, dann wäre B auch $attribut$
+\item Transformiere \textbf{alle} Instanzen von B zu Instanzen von A, wobei diese Transformation $attribut$ \textbf{nicht verändern} darf.
+\item Widerspruch!
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\vspace{-1 cm}
+Ist die Sprache $L=\{\langle M \rangle \mid \text{TM M hat mind. einen nicht erreichbaren Zustand}\}$ entscheidbar?
+\begin{itemize}
+	\item Annahme: $L$ entscheidbar ($\Leftrightarrow \overline{L}$ entscheidbar)
+	\item Bekannt: Das Halteproblem ist nicht entscheidbar
+	\item Transformation f von (allen) Instanzen $\in$ Halt zu Instanzen von $\overline{L}$~\\ $f:(\langle M \rangle, w) \rightarrow \langle M' \rangle$
+	\item Konstruiere $M'$: $M'$ hat folgende Funktionsweise:
+	\begin{enumerate}
+		\item Leere das Band
+		\item Schreibe w auf das Band
+		\item Simuliere $M$
+		\item Gehe in einen zusätzlichen Zustand $q_s$
+	\end{enumerate}
+	\item Folgerung:
+	\begin{itemize}
+		\item $\langle M' \rangle = f((\langle M \rangle, w)) \in \overline{L}$
+		\item $\Leftrightarrow$ $M'$ hat keinen nicht erreichbaren Zustand
+		\item $\Leftrightarrow$ $M'$ geht in Zustand $q_s$
+		\item $\Leftrightarrow$ $M$ hält bei Eingabe w
+		\item $\Leftrightarrow (\langle M \rangle, w) \in HALT$
+	\end{itemize}
+	\item Also: $L$ entscheidbar $\Rightarrow \overline{L}$ entscheidbar $\Rightarrow$ HALT entscheidbar $\lightning$
+\end{itemize}
+\end{frame}
+
+\section{SAT}
+\subsection{SAT}
+\begin{frame}
+\frametitle{SAT (SATisfiability = Erfüllbarkeitsproblem)}
+\begin{block}{Problem}
+\textbf{Gegeben:} Formel in konjunktiver Normalform
+\begin{itemize}
+ \item Menge $U$ von Variablen
+ \item Menge $C$ von Klauseln (Disjunktionen) über $U$
+\end{itemize} $$ \underbrace{(\stackrel{\text{Literale}}{\stackrel{\downarrow}{\vphantom{\neglit{a}}a} \vee \stackrel{\downarrow}{\vphantom{\neglit{b}}b} \vee \stackrel{\downarrow}{\neglit{c}}})}_\text{Klausel} \wedge \underbrace{(b \vee c)}_\text{Klausel} \wedge \underbrace{(\neglit{a} \vee \neglit{b} \vee \neglit{c})}_\text{Klausel}$$
+
+\textbf{Frage:} Existiert eine (alle Klauseln) erfüllende Variablenbelegung?
+\end{block}
+\end{frame}
+
+\section{$\mathcal{P}, \mathcal{NP}$}
+\subsection{Erklärung}
+\begin{frame}
+	\frametitle{$\mathcal{P}, \mathcal{NP}$}
+	\ducttape{1cm}
+	$\mathcal{P}$ ist die Klasse aller Sprachen, die von einer deterministischen Turingmaschine in Polynomialzeit erkannt werden.\\
+	\ducttape{1cm}
+	$\mathcal{NP}$ ist die Klasse aller Sprachen, die von einer \textbf{nicht}deterministischen Turingmaschine in Polynomialzeit erkannt werden.\\
+	\ducttape{1cm}
+	\textbf{Anmerkungen: }
+	\begin{itemize}
+		\item $\mathcal{P} \subseteq \mathcal{NP}$.
+		\item Die Frage ob $\mathcal{P} = \mathcal{NP}$ gilt ist ein großes, ungeklärtes Problem.
+	\end{itemize}
+	\end{frame}
+
+\begin{frame}
+	\frametitle{Gedanklicher Trick für $\mathcal{NP}$}
+	Ein Problem liegt in $\mathcal{NP}$ falls man eine mögliche Lösung in Polynomialzeit von einer \textbf{deterministischen} Turingmaschine verifizieren lassen kann.
+	\begin{block}{Beispiel}
+		Zeige: \emph{SAT} $\in \mathcal{NP}$
+		\begin{enumerate}
+			\item Es werden nichtdeterministisch alle möglichen Variablenbelegungen aufs Band geschrieben.
+			\item Es gibt nun eine deterministische Turingmaschine welche die Variablenbelegung in Polynomialzeit überprüft.
+		\end{enumerate}
+	\end{block}
+\end{frame}
+\subsection{Aufgabe B8 A2}
+\begin{frame}
+	\frametitle{Aufgabe zu P, co-P (B8 A2)}
+	Die Komplexit"atsklasse \textbf{co-P} sei definiert als die Menge der Sprachen
+	$\mathcal{L}$, deren Komplementsprache $\mathcal{L}^C$ in der\\
+	Komplexit"atsklasse \textbf{P} liegt.\\
+	\underline{Erinnerung:} Zu einer Sprache $\mathcal{L}$ "uber einem Alphabet $\Sigma$
+	ist die Komplementsprache $\mathcal{L}^C = \Sigma^* \setminus \mathcal{L}$.\\[4pt]
+	Beweisen Sie: \textbf{co-P} = \textbf{P}
+\end{frame}
+
+\section{Graph Färbbarkeit}
+\subsection{Erklärung}
+\begin{frame}
+	\frametitle{Graph-n-Färbbarkeit}
+	\begin{block}{Kurzdefinition}
+	Gegeben ist ein ungerichteter Graph den man mit n Farben einfärben soll ohne das zwei benachbarte (mit einer Kante verbundenen) Knoten die gleiche Farbe haben.\\
+	\end{block}
+	\begin{block}{Formal}
+	Gegeben: Ein ungerichteter Graph $G = (V,E)$ mit Knoten $v \in V$ und Kanten $e=(v_1, v_2)\in E$ mit $v_1, v_2 \in V$ und n Farben $F_1, F_2 , ... , F_n \in F$.\\
+	Gesucht: Eine totale Funktion \[g: V \rightarrow F:\forall(v_1,v_2)\in E: g(v_1)\not=g(v_2)\]
+	\end{block}
+\end{frame}
+\subsection{Beispiel}
+\begin{frame}
+	\frametitle{Beispiel Graph-Färbbarkeit}
+	\textbf{Färbe diesen Graph mit 2 Farben}
+	\begin{center}
+	\includegraphics[scale=0.4]{images/Graph_2_Faerben}	
+	\end{center}
+\end{frame}
+\begin{frame}
+	\frametitle{Beispiel Graph-Färbbarkeit}
+	\textbf{Ist dieser Graph 3-Färbbar?}
+	\begin{center}
+	\includegraphics[scale=0.4]{images/4_Faerben}	
+	\end{center}
+\end{frame}
+
+\subsection{Aufgabe B8 A3}
+\begin{frame}
+	\frametitle{Aufgabe zu Graphfärbbarkeit (B8 A3)}
+	Gegeben seien ein ungerichteter Graph $G = (V,E)$ mit Knoten $v \in V$ und
+	Kanten $e = (v_1,v_2) \in E$ mit $v_1, v_2 \in V$\\ und zwei Farben $A$ und $B$.\\
+	Beweisen Sie: Die Sprache $\mbox{2-COLOR} \; =$\\
+	$\{G \; | \; G = (V,E) \; \mbox{ungerichteter Graph mit} \; \exists \; \mbox{totale
+	Funktion} \; g: V \to \{A,B\}: \forall \; (v_1, v_2) \in E: g(v_1) \neq g(v_2)\}$\\
+	liegt in der Komplexit"atsklasse \textbf{P}.
+\end{frame}
+
+\section{2-SAT}
+\subsection{Erkläung}
+\begin{frame}
+	\frametitle{n-SAT}
+	\begin{block}{Kurzdefinition}
+	Das selbe wie SAT allerdings enthalten ALLE Klauseln exakt n Literale.\\
+	\end{block}
+	\begin{block}{Formal}
+\textbf{Gegeben:} Formel in konjunktiver Normalform
+\begin{itemize}
+ \item Menge $U$ von Variablen
+ \item Menge $C$ von Klauseln (Disjunktionen) über $U$ mit je exakt n Literalen
+\end{itemize} %$$ \underbrace{(\stackrel{\text{Literale}}{\stackrel{\downarrow}{\vphantom{\neglit{a}}a} \vee \stackrel{\downarrow}{\vphantom{\neglit{b}}b} \vee \stackrel{\downarrow}{\neglit{c}}})}_\text{Klausel} \wedge \underbrace{(b \vee c)}_\text{Klausel} \wedge \underbrace{(\neglit{a} \vee \neglit{b} \vee \neglit{c})}_\text{Klausel}$$
+
+\textbf{Frage:} Existiert eine (alle Klauseln) erfüllende Variablenbelegung?
+\end{block}
+
+\end{frame}
+\subsection{Beispiel}
+\begin{frame}
+	\frametitle{Beispiele}
+	\textbf{3-Sat}
+	\[U=\{ a,b,c,d \}\]
+	\[C=\{\{\neg a,\neg b,d\},\{\neg b,\neg a,c\},\{\neg c,\neg d, a\},\{b,c,d\}\}\]
+	\textbf{2-Sat}
+	\[U=\{ a,b,c,d,e \}\]
+	\[C=\{\{a,\neg b\},\{\neg b,\neg d\},\{b,\neg d\},\{\neg c,d\},\{d,e\},\{d,\neg e\}\}\]
+\end{frame}
+
+\section{Weitere Aufgaben}
+\subsection{2-COLOR auf 2-SAT Reduktion (B8 A4)}
+\begin{frame}
+	\frametitle{Reduktionsaufgabe (B8 A4)}
+	Das Problem 2-SAT ist folgenderma"sen definiert:\\
+	\begin{figure}[ht]
+	\setbox0\vbox{\small
+	\textbf{2-SAT}\\
+	Gegeben eine in ihrer Gr"o"se polynomiell beschr"ankte aussagenlogische Formel $F$
+	in konjuktiver Normalform, wobei jede Klausel genau 2 Literale enth"alt. $F$ hat
+	also die Form
+	\begin{eqnarray*}F = \Lambda_{i = 1}^n (L_i \vee N_i),\end{eqnarray*}
+	wobei $L_i$ und $N_i$ Literale sind, also von der Form $X$ oder $\neg X$ f"ur eine
+	Variable $X$ sind.\\
+	Gibt es eine erfüllende Belegung für $F$?
+	}
+	\centerline{\fbox{\box0}}
+	\end{figure}
+	Geben Sie eine polynomielle Reduktion von 2-COLOR auf 2-SAT an!
+\end{frame}
+\subsection{B8 A1}
+\begin{frame}
+	\frametitle{Aufgabe B8 A1}
+	\only<1>{
+	Ein Algorithmus, der eine Zahl $n \in \mathbb{N}$ als Eingabe erh"alt und pr"uft,
+	ob $n$ prim ist, sei gegeben durch die\\
+	nachfolgende Beschreibung einer Turingmaschine $\mathcal{M}$, die die Funktion
+	$f: \mathbb{N} \to \{0,1\}, n \mapsto
+	\left\{\begin{array}{c@{\hspace{0.2cm},\hspace{0.2cm}}l}
+	1 & n \; \mbox{prim}\\0 & \mbox{sonst}
+	\end{array}\right.$\\
+	realisiert.\\[4pt]}
+	\only<2>{
+	1. Initialisiere Z"ahler $z$ mit $2$ und Ausgabe $a$ mit $1$\\
+	2. Berechne $n \; \% \; z$\\
+	3. Pr"ufe, ob $n \; \% \; z = 0$ gilt:\\
+	- Falls ja: Setze $a$ auf $0$ und gehe zu Schritt 4.\\
+	- Falls nein: Gehe zu Schritt 4.\\
+	4. Pr"ufe, ob $z < n$ gilt:\\
+	- Falls ja: Erh"ohe $z$ um $1$ und gehe zu Schritt 2.\\
+	- Falls nein: L"osche das Band, schreibe $a$ auf das Band und stoppe\\[4pt]
+	Geben Sie die Komplexit"at des oben angegebenen Algortihmus bez"uglich der Eingabe
+	$n$ und auch bez"uglich der\\
+	L"ange der Bin"ardarstellung von $n$ an!}
+\end{frame}
+
+\section{Schluss}
+\subsection{Schluss}
+\begin{frame}
+\frametitle{Bis zum nächsten Mal!}
+\begin{center}
+	\includegraphics[width= \textwidth]{images/399_traveling_salesman}
+\end{center}
+\end{frame}
+
+\include{common_end}
