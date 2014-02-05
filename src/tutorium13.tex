@@ -1,0 +1,155 @@
+\include{common_start}
+\include{tutBlatt_methods}
+\include{amsmath}
+
+\tutnr{13}
+
+\section{Kanalkapazität}
+\subsection{Erklärung}
+\begin{frame}
+	\frametitle{Kanalkapazität}
+	Die Kanalkapazität bezeichnet maximale Bitrate eines Kanals, bei der eine fehlerfreie Übertragung möglich ist.\\
+	Mit einer geeigneten Kodierung kann diese Bitrate näherungsweise erreicht werden.
+	\begin{block}{Definition}
+	Die Kapazität $C$ eines Kanals mit Sender $X$ und Empfänger $Y$ ist
+	\begin{equation}
+		C = \underset{X}{max}\ I(X;Y)
+	\end{equation}
+	\end{block}
+	Die Kapazität eines Kanals ist also unabhängig von einem konkreten Sender zu bestimmen. Die Kapazität ist so zu sagen die Transinformation $I(X;Y)$ der (für diesen Kanal) besten Quelle $X$.
+\end{frame}
+\subsection{Aufgabe B13 A1}
+\begin{frame}
+\frametitle{Aufgabe B13 A1}
+Gegeben sei ein bin"arer Kanal mit Sender $X$ und Empf"anger $Y$, genannt Z-Kanal,
+durch die folgende Matrix:\\[4pt]
+$Q = \left( \begin{array}{cc}
+P(Y=0|X=0) & P(Y=0|X=1) \\ P(Y=1|X=0) & P(Y=1|X=1)
+\end{array} \right) = \left( \begin{array}{cc}
+1 & 0.5 \\ 0 & 0.5
+\end{array} \right)$\\[4pt]
+Bestimmen Sie die Kanalkapazit"at!\\[4pt]
+\underline{Hinweis:} Sie k"onnen dabei folgendes verwenden:
+\[ \frac{\log_b{x}}{dx} = \frac{1}{x \cdot \ln{b}} \]
+\end{frame}
+
+
+\section{Systematische Codes}
+\subsection{Erklärung}
+\begin{frame}
+	\frametitle{Systematische Codes}
+	Damit überprüft werden kann, ob ein Wort richtig übertragen wurde, müssen zusätzlich Daten übermittelt werden.\\
+	Eine Möglichkeit der Fehlerprüfung ist die Verwendung von Generatormatrizen.\\ 
+	Dabei werden Wörter der festen Länge k mit Wörter der Länge k+r kodiert. Dazu wird eine Generatormatrix der Form \[G=\left(\frac{I_k}{A}\right)\] verwendet, wobei $I_k$ die $k \times k$-Einheitsmatrix ist und A eine $r \times k$-Matrix. Das kodierte Wort $\omega_{\text{codiert}}$ erhält man aus dem dazugehörigen Wort $\omega$ mittels der Formel $G\omega=\omega_{\text{codiert}}.$\\
+\end{frame}
+\begin{frame}
+	\frametitle{Systematische Codes}
+	Zu der Generatormatrix gehört eine Prüfmatrix \[H=\left(A|I_r\right)\] mit deren Hilfe sich das Syndrom $s=H\omega_{\text{codiert}}$ ausrechnen lässt.\\ Ist $s=0$, wurde die Information im Rahmen der Fehlerkorrektur richtig übertragen. Ist $s\not = 0$ vergleicht man s mit den Spalten von H.\\ Sei $H_k$ die k-te Spalte von H.
+	\begin{itemize}
+	\item Gilt $H_k=s$ für exakt ein k, dann ist das k-te Bit im gesendeten Wort falsch.
+	\item Gilt $H_k=s$ für mehrere k, dann ist eine ungerade Anzahl der dazugehörigen Bits falsch.
+	\item Gilt $H_k\not=s$ für alle k, dann sind definitiv mehrere Bits falsch übertragen worden.
+	\end{itemize}
+\end{frame}
+\subsection{Aufgabe B13 A2}
+\begin{frame}
+\frametitle{Aufgabe B13 A2}
+Sei $\mathcal{C}$ ein bin"arer Code, der durch die folgende Generatormatrix gegeben
+ist:\\[4pt]
+$G = \left( \begin{array}{cccc}
+1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 1 \\
+1 & 1 & 0 & 0 \\
+0 & 0 & 1 & 1 \\
+1 & 1 & 1 & 1
+\end{array} \right)$\\[4pt]
+Dekodieren Sie die folgenden empfangenen W"orter!
+\begin{enumerate}
+\item $w_1 = (\begin{array}{ccccccc}1 & 1 & 0 & 1 & 0 & 1 & 1\end{array})$
+\item $w_2 = (\begin{array}{ccccccc}0 & 1 & 1 & 0 & 1 & 1 & 1\end{array})$
+\item $w_3 = (\begin{array}{ccccccc}0 & 1 & 1 & 1 & 0 & 0 & 0\end{array})$
+\end{enumerate}
+\end{frame}
+
+
+\section{Hamming-Code}
+\subsection{Erklärung}
+
+\begin{frame}
+\frametitle{Hamming-Code}
+\begin{itemize}
+	\item Eine Codierung zur Erkennung von bis zu 2-bit-Fehlern und Korrektur von 1-bit-Fehlern
+	\item n Paritätsbits sichern $2^n$ bits - 1 (Code für Fehlerfrei) - n
+\end{itemize}~\\~\\~\\
+\only<2->{Bildlich:~\\}
+\only<2>{$p_1$ $p_2$ $d_3$~\\ \textcolor{red}{$p_1$} $p_2$ \textcolor{red}{$d_3$}~\\$p_1$ \textcolor{red}{$p_2$} \textcolor{red}{$d_3$}}
+\only<3>{$p_1$ $p_2$ $d_3$ $p_4$ $d_5$ $d_6$ $d_7$~\\ \textcolor{red}{$p_1$} $p_2$ \textcolor{red}{$d_3$} $p_4$ \textcolor{red}{$d_5$} $d_6$ \textcolor{red}{$d_7$}~\\$p_1$ \textcolor{red}{$p_2$} \textcolor{red}{$d_3$} $p_4$ $d_5$ \textcolor{red}{$d_6$} \textcolor{red}{$d_7$}~\\$p_1$ $p_2$ $d_3$ \textcolor{red}{$p_4$} \textcolor{red}{$d_5$} \textcolor{red}{$d_6$} \textcolor{red}{$d_7$}}
+\only<4>{$p_1$ $p_2$ $d_3$ $p_4$ $d_5$ $d_6$ $d_7$ $p_8$ $d_9$ $d_{10}$ $d_{11}$ $d_{12}$ $d_{13}$ $d_{14}$ $d_{15}$~\\ \textcolor{red}{$p_1$} $p_2$ \textcolor{red}{$d_3$} $p_4$ \textcolor{red}{$d_5$} $d_6$ \textcolor{red}{$d_7$} $p_8$ \textcolor{red}{$d_9$} $d_{10}$ \textcolor{red}{$d_{11}$} $d_{12}$ \textcolor{red}{$d_{13}$} $d_{14}$ \textcolor{red}{$d_{15}$}~\\$p_1$ \textcolor{red}{$p_2$} \textcolor{red}{$d_3$} $p_4$ $d_5$ \textcolor{red}{$d_6$} \textcolor{red}{$d_7$} $p_8$ $d_9$ \textcolor{red}{$d_{10}$} \textcolor{red}{$d_{11}$} $d_{12}$ $d_{13}$ \textcolor{red}{$d_{14}$} \textcolor{red}{$d_{15}$}~\\$p_1$ $p_2$ $d_3$ \textcolor{red}{$p_4$} \textcolor{red}{$d_5$} \textcolor{red}{$d_6$} \textcolor{red}{$d_7$} $p_8$ $d_9$ $d_{10}$ $d_{11}$ \textcolor{red}{$d_{12}$ $d_{13}$ $d_{14}$ $d_{15}$}~\\$p_1$ $p_2$ $d_3$ $p_4$ $d_5$ $d_6$ $d_7$ \textcolor{red}{$p_8$ $d_9$ $d_{10}$ $d_{11}$ $d_{12}$ $d_{13}$ $d_{14}$ $d_{15}$}}
+\end{frame}
+
+\begin{frame}
+\frametitle{Beispiel}
+1100110  \hspace{1 cm}S~\\
+\only<2->{\textcolor{red}{1}1\textcolor{red}{0}0\textcolor{red}{1}1\textcolor{red}{0}  \hspace{1 cm}0~\\}
+\only<3->{1\textcolor{red}{10}01\textcolor{red}{10} \hspace{1 cm}0~\\}
+\only<4->{110\textcolor{red}{0110}  \hspace{1 cm}0~\\}
+\only<5->{$\Rightarrow$ Keine Fehler! Datenwort = 0110} ~\\~\\~\\~\\
+
+
+
+\only<6->{1100010  \hspace{1 cm}S~\\}
+\only<7->{\textcolor{red}{1}1\textcolor{red}{0}0\textcolor{red}{0}1\textcolor{red}{0}  \hspace{1 cm}1~\\}
+\only<8->{1\textcolor{red}{10}00\textcolor{red}{10}  \hspace{1 cm}0~\\}
+\only<9->{110\textcolor{red}{0010}  \hspace{1 cm}1~\\}
+\only<10->{$\Rightarrow$ Fehler an der Stelle $2^1 + 2^2 = 5$~\\Korrektur: 1100\textcolor{red}{1}10~\\$\Rightarrow$ repariertes Datenwort: 0110}
+
+
+\end{frame}
+
+\subsection{Aufgabe B13 A3}
+\begin{frame}
+\frametitle{Aufgabe B13 A3}
+Gegeben sei der $[7,4]$-Hamming-Code $\mathcal{C}_H$ mit der Erzeugermatrix\\[4pt]
+\begin{columns}
+\column[c]{0.5\textwidth}
+$G = \left( \begin{array}{cccc}
+1 & 1 & 0 & 1 \\
+1 & 0 & 1 & 1 \\
+1 & 0 & 0 & 0 \\
+0 & 1 & 1 & 1 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 1
+\end{array} \right)$\\[4pt]
+\column[c]{0.5\textwidth}
+und der Pr"ufmatrix\\[4pt]
+$H = \left( \begin{array}{ccccccc}
+0 & 0 & 0 & 1 & 1 & 1 & 1 \\
+0 & 1 & 1 & 0 & 0 & 1 & 1 \\
+1 & 0 & 1 & 0 & 1 & 0 & 1
+\end{array} \right)$.\\[4pt]
+\end{columns}
+\vspace{0.5cm}
+Dekodieren Sie die folgenden empfangenen W"orter!
+\begin{enumerate}
+\item $w_1 = (\begin{array}{ccccccc}0 & 0 & 0 & 1 & 1 & 1 & 1\end{array})$
+\item $w_2 = (\begin{array}{ccccccc}1 & 1 & 0 & 0 & 1 & 1 & 1\end{array})$
+\item $w_3 = (\begin{array}{ccccccc}1 & 1 & 1 & 0 & 0 & 0 & 0\end{array})$
+\item $w_4 = (\begin{array}{ccccccc}0 & 1 & 1 & 1 & 1 & 1 & 1\end{array})$
+\end{enumerate}
+\end{frame}
+
+
+\section{Schluss}
+\subsection{Schluss}
+\begin{frame}
+\frametitle{Bis zum nächsten Mal!}
+%TODO change the comic
+\begin{center}
+	\includegraphics[height=0.85\textheight]{images/xkcd_336}
+\end{center}
+\end{frame}
+
+\include{common_end}

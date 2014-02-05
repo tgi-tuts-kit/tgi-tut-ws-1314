@@ -1,0 +1,238 @@
+\include{common_start}
+\include{tutBlatt_methods}
+\include{amsmath}
+
+\tutnr{12}
+
+\section{Begriffe der Informationstheorie}
+\subsection{Erklärung}
+\begin{frame}
+	\frametitle{Shannonscher Informationsbegriff}
+	\begin{itemize}
+		\item Jede Information bzw. Nachricht besitzt eine Quelle
+		\begin{itemize}
+			\item Oft randomisiert a.k.a. Zufallsquellen
+			\item Wenn alle gesendete Nachrichten unabhängig voneinander sind, ist die Quelle gedächtnislos
+		\end{itemize}
+		\item Es gibt immer einen Empfänger, der die Nachrichten beobachtet
+		\item Je unvorhersehbarer die Nachricht, desto mehr Informationsgehalt
+		\begin{itemize}
+				\item Wird deshalb auch manchmal Überraschungswert genannt
+		\end{itemize}
+		\item Entropie ist ein Begriff für die Dichte der Informationen
+	\end{itemize}
+\end{frame}
+
+\section{Mehr Begriffe der Informationstheorie}
+%Erklären: Empfänger, Kanäle, Verbundentropie, Äquivokation, Transinformation, Fehlinformation(="inverse Äquivokation"=Irrelevanz?), Totalinformation (=Verbundentropie?)
+\begin{frame}
+\frametitle{Übertragung von Information}
+Daten können über einen Kanal von der Quelle zu einem Empfänger gesendet werden. Dieser Kanal ist in der Regel nicht störungsfrei, dass heißt die gesendeten Daten können ungleich zu den empfangenen sein.\\ 
+Ein gestörter Kanal kann durch seine Übertragungswahrscheinlichkeiten $P(r|q)$, welche angeben wie wahrscheinlich es ist, dass r beim Empfänger ankommt, wenn q aus der Quelle gesendet wurde, charakterisiert werden.\\
+Damit ergibt sich der Zusammenhang \[P(R=r)=\sum_{q \in Q} P(Q=q)P(R=r|Q=q)\] und für die Wahrscheinlichkeit das r und q gleichzeitig auftreten: \[P(Q=q,R=r)=P(Q=q)P(R=r|Q=q).\]
+\end{frame}
+\begin{frame}
+\frametitle{Einige Definitionen}
+\emph{Totalinformation} oder auch Verbundentropie H(Quelle $Q$, Empfänger $R$) ist die gesamte von Quelle und Empfänger erzeugte Entropie
+\[H(Q,R)=-\sum_{q \in Q} \sum_{r \in R} P(Q=q,R=r)\log(P(Q=q,R=r))\]
+\emph{Äquivokation} $H$(Quelle $Q|$ Empfänger $R$) gibt dem Entropieverlust durch die Übertragung an.\\
+\[H(Q|R)=H(Q,R)-H(R)\]
+\emph{Fehlinformation} H(Empfänger $R|$ Quelle $Q$) entspricht dem anscheinenden Entropiegewinn durch die Übertragung.
+\[H(R|Q)=H(Q,R)-H(Q)\]
+\emph{Transinformation} I(Quelle $Q$, Empfänger $R$) ist die richtig empfangene Informationsmenge.
+\[I(Q,R)= H(Q)-H(Q|R)=H(R)-H(R|Q)=H(Q)+H(R)-H(Q,R)\]
+\end{frame}
+\begin{frame}
+\frametitle{Bild zur Veranschaulichung}
+\begin{center}
+\includegraphics[scale=0.35]{images/Entropie_XY}
+\end{center}
+\end{frame}
+\subsection{Erklärung}
+\subsection{Aufgabe B11 A2}
+\begin{frame}
+	\frametitle{Aufgabe B11 A2}
+	\only<1>{
+	Studieren Sie den Fall eines asymmetrischen bin"aren Kanals mit Quelle $X$ und
+	Empf"anger $Y$. Die "Ubertragungswahrscheinlichkeiten $P(Y|X)$ seien durch das
+	folgende Diagramm gegeben:
+	}
+	\only<2->{
+	\vspace{-0.6cm}
+	}
+		\begin{center}
+			\begin{tikzpicture}
+			\draw (0,0) circle (10pt);
+			\draw (0,0) node {$1$};
+			\draw (0,2) node {$X$};
+			\draw (0,4) circle (10pt);
+			\draw (0,4) node {$0$};
+			\draw (4,0) circle (10pt);
+			\draw (4,0) node {$1$};
+			\draw (4,2) node {$Y$};
+			\draw (4,4) circle (10pt);
+			\draw (4,4) node {$0$};
+			\draw [->] (0.35,0) -- (3.65,0);
+			\draw (2,0.3) node {$0.9$};
+			\draw [->] (0.35,4) -- (3.65,4);
+			\draw (2,3.7) node {$0.8$};
+			\draw [->] (0.25,0.25) -- (3.75,3.75);
+			\draw (1.5,1) node {$0.1$};
+			\draw [->] (0.25,3.75) -- (3.75,0.25);
+			\draw (1.5,3) node {$0.2$};
+			\end{tikzpicture}
+		\end{center}
+		\only<2,3>{
+	\begin{enumerate}
+		\only<2>{
+		\item Wie gro"s ist die Wahrscheinlichkeit daf"ur, dass die Bitkette ``$1100$'' als
+		``$1001$'' "ubertragen wird?
+		\item Wenn die Entropie der Quelle $H(X) = 1 \; \mbox{bit}$ ist, wie gro"s ist dann
+		$H(Y)$?
+		\item Wie gro"s muss $H(X)$ sein, damit $H(Y) = 1 \; \mbox{bit}$ gilt?
+		}
+		\only<3>{
+		\item Wie gro"s ist die Verbundentropie $H(X,Y)$ des "Ubertragungssystems? Gehen Sie
+		ab dieser Teilaufgabe von der Situation der 2. Teilaufgabe aus!
+		\item Wie gro"s ist die sog. Irrelevanz $H(Y|X)$? Und wie gro"s ist die sog.
+		"Aquivokation $H(X|Y)$?
+		\item Wie gro"s ist schlie"slich die Transinformation $I(X;Y)$?	
+	}
+	\end{enumerate}
+	}
+\end{frame}
+\subsection{Aufgabe B11 A4}
+\begin{frame}
+	\frametitle{Aufgabe B11 A4}
+	Gegeben sei eine ged"achtnislose Quelle $Q$, die mit Wahrscheinlichkeit $p_0 =
+	\frac{1}{4}$ eine $0$ und mit Wahrscheinlichkeit $p_1 = \frac{3}{4}$ eine $1$ sendet.
+	Gegeben sei zudem ein Empf"anger $R$, der die Zeichen von $Q$ zu empfangen versucht.
+	Dieser Empf"anger empf"angt eine $0$ immer richtig. Sendet die Quelle $Q$ jedoch
+	eine $1$, so empf"angt $R$ mit Wahrscheinlichkeit $\frac{1}{2}$ eine $1$ und mit
+	Wahrscheinlichkeit $\frac{1}{2}$ eine $0$.
+	\begin{enumerate}
+		\item Berechnen Sie die Information $I(0)$ und $I(1)$ bez"uglich der Quelle $Q$!
+		\item Berechnen Sie die Entropie der Quelle $Q$!
+		\item Die Quelle $Q$ sendet die Zeichenfolge $0110$. Wie hoch ist der
+		Informationsgehalt dieser Zeichenfolge?
+		\item Berechnen Sie die Totalinformation $H(Q,R)$, die Fehlinformation $H(R|Q)$,
+		die "Aquivokation $H(Q|R)$ und die Transinformation $I(Q;R)$!
+	\end{enumerate}
+\end{frame}
+
+\section{Huffman-Codierung}
+\subsection{Erklärung}
+\begin{frame}
+	\frametitle{Huffman-Codierung}
+	Die Huffman-Codierung ist ein Algorithmus zur verlustfreien Datenkompression.
+	\begin{block}{Problemdefinition}
+	\begin{itemize}
+		\item Gegeben
+		\begin{itemize}
+			\item Ein Alphabet $A = \{a_0, a_1, ..., a_n\}$ der Größe $n$
+			\item Gewichte $W = \{w_0, w_1, ..., w_n\}$ für alle $a \in A$. \\
+			Meist die Wahrscheinlichkeit, dass ein Zeichen auftritt.
+		\end{itemize}
+		\item Gesucht
+		\begin{itemize}
+			\item Eine binäre Codierung für alle Zeichen aus $A$, sodass die erwartete Code-Wortlänge in Bezug auf die Gewichte minimal ist.
+		\end{itemize}		
+	\end{itemize}
+	\end{block}
+	\only<2> {
+	Lässt sich sowohl auf konkrete Wörter anwenden als auch auf Quellen, von denen man weiß, wie wahrscheinlich sie welches Zeichen sendet.
+	}
+\end{frame}
+\begin{frame}
+	\frametitle{Huffman-Codierung Beispiel}
+	Gegeben sei das Wort \textbf{\textcolor{red}{a}\textcolor{blue}{b}\textcolor{red}{a}\textcolor{green}{c}\textcolor{red}{a}\textcolor{blue}{b}\textcolor{red}{a}d\textcolor{red}{a}\textcolor{blue}{b}\textcolor{red}{a}\textcolor{green}{c}\textcolor{red}{a}\textcolor{blue}{b}\textcolor{red}{a}}. Wie lautet eine Huffman-Codierung? \\
+	\visible<2->{
+		\begin{itemize}
+			\item \textcolor{red}{\#a = 8}
+			\item \textcolor{blue}{\#b = 4}
+			\item \textcolor{green}{\#c = 2}
+			\item \textcolor{brown}{\#d = 1}
+		\end{itemize}
+	}
+	\only<3>{
+		\begin{center}
+			\includegraphics[scale=0.4]{images/Huffman}
+		\end{center}
+	}
+\end{frame}
+\subsection{Aufgabe B11 A3}
+\begin{frame}
+	\frametitle{Aufgabe B11 A3}
+	Gegeben sei eine Quelle mit Alphabet $\{A,B,C,D\}$ und mit den folgenden
+	Wahrscheinlichkeiten:\\
+	$P(A)=\frac{1}{2}, P(B)=\frac{1}{4}, P(C)=\frac{1}{8}, P(D)=\frac{1}{8}$
+	\begin{itemize}
+	\only<1>{
+		\item Berechnen Sie die Entropie der Quelle!
+		\item Erstellen Sie eine entsprechende Huffman-Codierung!
+		\item Was ist die mittlere Codewortl"ange? Gibt es einen Zusammenhang zur Entropie?
+		}
+		\only<2>{
+		\item Gegeben sei der folgende Huffman-Baum:
+		\begin{center}
+			\begin{tikzpicture}
+				\node[circle,draw]{}
+				child{
+				  node[circle,draw]{}
+				  child{
+				    node[circle,draw]{$A$}
+				    edge from parent
+				    node[left]{\textbf{$0$}}
+				  }
+				  child{
+				    node[circle,draw]{$B$}
+				    edge from parent
+				    node[right]{\textbf{$1$}}
+				  }
+				  edge from parent
+				  node[left]{\textbf{$0$}}
+				}
+				child{
+				  node[circle,draw]{$C$}
+				  edge from parent
+				  node[right]{\textbf{$1$}}
+				};
+			\end{tikzpicture}
+		\end{center}
+		Dekodieren Sie $011011101100101011$! Ist der Huffman-Code geeignet?
+		}
+	\end{itemize}
+\end{frame}
+
+\section{Multiple Choice}
+\subsection{Multiple Choice}
+\begin{frame}
+	\frametitle{Multiple Choice}
+	\begin{center}
+	\only<1>{
+		Das Travelman Salesmen Problem ist NP-vollständig
+	}
+	\only<2>{
+		N-SAT ist immer NP-vollständig
+	}
+	\only<3>{
+		Deterministische Kellerautomaten erkennen Chomsky-2
+	}
+	\only<4>{
+		$ NP \neq co-NP \implies P \neq NP $
+	}
+	\end{center}
+\end{frame}
+
+
+\section{Schluss}
+\subsection{Schluss}
+\begin{frame}
+\frametitle{Bis zum nächsten Mal!}
+%TODO change the comic
+\begin{center}
+	\includegraphics[height=0.85\textheight]{images/password_strength_936}
+\end{center}
+\end{frame}
+
+\include{common_end}
